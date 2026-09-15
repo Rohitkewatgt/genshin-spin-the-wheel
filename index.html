@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Genshin Spin the Wheel</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- Application header -->
+        <header class="top-bar">
+            <div class="brand">
+                <span class="brand-small">GENSHIN</span>
+                <h1>Spin the Wheel</h1>
+            </div>
+
+            <div class="header-actions">
+
+    <button
+        class="history-button"
+        id="historyButton"
+        type="button"
+    >
+        <span>☰</span>
+        History
+    </button>
+
+    <button
+        class="summary-button"
+        id="summaryButton"
+        type="button"
+    >
+        <span>◉</span>
+        Summary
+    </button>
+
+</div>
+        </header>
+
+        <!-- Battle history overlay -->
+<div class="history-overlay hidden" id="historyOverlay">
+
+    <div class="history-panel">
+
+        <div class="history-header">
+            <div>
+                <span class="history-label">CHALLENGE</span>
+                <h2>Battle History</h2>
+            </div>
+
+            <button
+                class="history-close"
+                id="historyClose"
+                type="button"
+            >
+                ×
+            </button>
+        </div>
+
+        <div class="history-content" id="historyContent">
+            <p class="history-empty">
+                No battles completed yet.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Challenge summary overlay -->
+<div class="summary-overlay hidden" id="summaryOverlay">
+
+    <div class="summary-panel">
+
+        <div class="summary-header">
+
+            <div>
+                <span class="summary-label">CHALLENGE</span>
+                <h2>Battle Summary</h2>
+            </div>
+
+            <button
+                class="summary-close"
+                id="summaryClose"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            class="summary-content"
+            id="summaryContent"
+        >
+            <p class="summary-empty">
+                No battles completed yet.
+            </p>
+        </div>
+
+        <!-- Summary actions -->
+<div class="summary-footer">
+
+    <button
+        class="reset-button"
+        id="resetButton"
+        type="button"
+    >
+        Reset Challenge
+    </button>
+
+    </div>
+
+</div>
+
+<!-- Reset confirmation overlay -->
+<div class="reset-overlay hidden" id="resetOverlay">
+
+    <div class="reset-dialog">
+
+        <div class="reset-dialog-header">
+            <span class="reset-label">WARNING</span>
+            <h2>Reset Challenge?</h2>
+        </div>
+
+        <div class="reset-dialog-content">
+            <p>
+                This will end the current challenge and clear all
+                players, rounds, and battle history.
+            </p>
+
+            <p>
+                This action cannot be undone.
+            </p>
+        </div>
+
+        <div class="reset-dialog-actions">
+
+            <button
+                class="cancel-reset-button"
+                id="cancelResetButton"
+                type="button"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="confirm-reset-button"
+                id="confirmResetButton"
+                type="button"
+            >
+                Reset Challenge
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+<!-- Boss location overlay -->
+<div class="location-overlay hidden" id="locationOverlay">
+
+    <div class="location-panel">
+
+        <div class="location-header">
+
+            <div>
+                <span class="location-label">
+                    LOCATION
+                </span>
+
+                <h2 id="locationBossName">
+                    Boss Location
+                </h2>
+            </div>
+
+            <button
+                class="location-close"
+                id="locationClose"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="location-map-container">
+
+            <img
+                id="locationMap"
+                src=""
+                alt="Boss location map"
+            >
+
+            <div
+    class="location-layer hidden"
+    id="locationLayer"
+    aria-label="Map layers"
+>
+</div>
+        </div>
+
+        <div class="location-details">
+
+            <div class="location-detail">
+
+                <span>REGION</span>
+
+                <strong id="locationRegion">
+                    —
+                </strong>
+
+            </div>
+
+            <div class="location-detail">
+
+                <span>LOCATION</span>
+
+                <strong id="locationDescription">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Full-screen map viewer -->
+<div class="map-viewer-overlay hidden" id="mapViewerOverlay">
+
+    <button
+        class="map-viewer-close"
+        id="mapViewerClose"
+        type="button"
+        aria-label="Close map viewer"
+    >
+        ×
+    </button>
+
+    <div class="map-viewer-container" id="mapViewerContainer">
+
+        <img
+            id="mapViewerImage"
+            src=""
+            alt="Expanded boss location map"
+        >
+
+    </div>
+
+</div>
+
+<!-- Player setup screen -->
+<section class="setup-screen" id="setupScreen">
+
+            <div class="setup-heading">
+                <span class="section-label">NEW CHALLENGE</span>
+                <h2>Who's playing?</h2>
+                <p>Enter the names of everyone taking part.</p>
+            </div>
+
+            <form id="playerForm">
+
+                <!-- Player inputs are generated dynamically -->
+                <div class="player-list" id="playerList"></div>
+
+                <button
+                    class="add-player-button"
+                    id="addPlayerButton"
+                    type="button"
+                >
+                    + Add Player
+                </button>
+
+                <button
+                    class="start-button"
+                    id="startButton"
+                    type="submit"
+                >
+                    START CHALLENGE
+                </button>
+
+                <p class="setup-error" id="setupError"></p>
+
+            </form>
+
+        </section>
+
+        <!-- Main challenge screen -->
+        <section class="challenge hidden" id="challengeScreen">
+
+           <div class="challenge-decorations" aria-hidden="true">
+
+    <img
+        src="assets/fatui-insignia.png"
+        class="fatui-decoration"
+        alt=""
+    >
+
+    <img
+        src="assets/wolf-insignia.png"
+        class="wolf-decoration"
+        alt=""
+    >
+
+    <!-- Left vertical ornament -->
+    <div class="decorative-line decorative-line-left">
+
+        <span class="line-segment line-top"></span>
+
+        <span class="ornament-diamond ornament-diamond-large"></span>
+        <span class="ornament-diamond ornament-diamond-small"></span>
+
+        <span class="line-segment line-bottom"></span>
+
+    </div>
+
+    <!-- Right vertical ornament -->
+    <div class="decorative-line decorative-line-right">
+
+        <span class="line-segment line-top"></span>
+
+        <span class="ornament-diamond ornament-diamond-large"></span>
+
+        <span class="line-segment line-middle"></span>
+
+        <span class="ornament-diamond ornament-diamond-second"></span>
+
+        <span class="line-segment line-bottom"></span>
+
+    </div>
+
+</div>
+
+</div>
+
+            <div class="round-info">
+                <span class="round-label" id="roundLabel">ROUND 1</span>
+                <span class="divider"></span>
+                <span class="player-name" id="playerTurn">Player's Turn</span>
+            </div>
+
+            <!-- Wheel container -->
+            <div class="wheel-area">
+
+                <div class="wheel-placeholder boss-wheel"></div>
+
+<div class="wheel-placeholder character-wheel"></div>
+
+                <div class="wheel-pointer"></div>
+
+            </div>
+
+            <!-- Current challenge result -->
+            <div class="result-area">
+
+                <div class="result-card">
+                    <span class="result-label">CURRENT CHALLENGE</span>
+
+                    <div class="result-names">
+                        <span id="characterResult">Character</span>
+                        <span class="result-vs">VS</span>
+                        <span class="boss-result-wrapper">
+
+    <span id="bossResult">
+        Boss
+    </span>
+
+    <button
+        class="location-button"
+        id="bossLocationButton"
+        type="button"
+        aria-label="Show boss location"
+    >
+        ⓘ
+    </button>
+
+</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+
+    <button class="spin-button" id="spinButton" type="button">
+        SPIN CHARACTER
+    </button>
+
+    <div class="reroll-controls" id="rerollControls">
+
+        <button
+            class="reroll-button"
+            id="rerollCharacterButton"
+            type="button"
+        >
+            ↻ Character
+        </button>
+
+        <button
+            class="reroll-button"
+            id="rerollBossButton"
+            type="button"
+        >
+            ↻ Boss
+        </button>
+
+    </div>
+
+</div>
+
+<div class="battle-result-controls" id="battleResultControls">
+    <button class="result-button win-button" id="winButton" type="button">
+        WIN
+    </button>
+
+    <button class="result-button loss-button" id="lossButton" type="button">
+        LOSS
+    </button>
+</div>
+
+            </div>
+
+        </section>
+
+        <!-- Application footer -->
+        <footer>
+            <span>Genshin Spin the Wheel</span>
+            <span>For the chaos.</span>
+        </footer>
+
+    </main>
+
+       <script src="data/characters.js"></script>
+<script src="data/bosses.js"></script>
+<script src="data/bossLocations.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2141 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Global styles ---------- */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family: "Inter", sans-serif;
+    color: #eee9df;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            #25242b 0%,
+            #15151a 45%,
+            #0c0c10 100%
+        );
+
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.025) 50%,
+            transparent 100%
+        );
+
+    opacity: 0.6;
+}
+
+/* ---------- Application container ---------- */
+
+.app {
+    width: min(1100px, 94%);
+    min-height: 100vh;
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 32px 0 20px;
+
+    border-bottom: 1px solid rgba(213, 184, 119, 0.22);
+}
+
+.brand-small {
+    display: block;
+
+    font-family: "Cinzel", serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+
+    color: #b9a77b;
+}
+
+.brand h1 {
+    margin-top: 2px;
+
+    font-family: "Cinzel", serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+/* ---------- Header history button ---------- */
+
+.history-button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 10px 16px;
+
+    color: #ded8ca;
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(213, 184, 119, 0.28);
+    border-radius: 4px;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.history-button:hover {
+    background: rgba(213, 184, 119, 0.09);
+    border-color: rgba(213, 184, 119, 0.55);
+
+    transform: translateY(-1px);
+}
+
+/* ---------- Battle history ---------- */
+
+.history-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background: rgba(8, 8, 10, 0.78);
+
+    backdrop-filter: blur(5px);
+}
+
+.history-overlay.hidden {
+    display: none;
+}
+
+.history-panel {
+    width: min(650px, 100%);
+    max-height: min(720px, 90vh);
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1c1b1d 0%,
+            #151416 100%
+        );
+
+    border: 1px solid rgba(213, 184, 119, 0.25);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 24px;
+
+    border-bottom:
+        1px solid rgba(213, 184, 119, 0.18);
+}
+
+.history-label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    color: #8f8b83;
+}
+
+.history-header h2 {
+    margin: 0;
+
+    font-family: "Cinzel", serif;
+    font-size: 22px;
+    font-weight: 600;
+
+    color: #e8dfcd;
+}
+
+.history-close {
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid rgba(213, 184, 119, 0.2);
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: #aaa49a;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.history-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e8dfcd;
+}
+
+.history-content {
+    overflow-y: auto;
+
+    padding: 20px 24px;
+}
+
+.history-empty {
+    margin: 20px 0;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #77736b;
+}
+
+.history-round {
+    margin-bottom: 24px;
+}
+
+.history-round:last-child {
+    margin-bottom: 0;
+}
+
+.history-round h3 {
+    margin: 0 0 10px;
+
+    font-family: "Cinzel", serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    color: #bda874;
+}
+
+.history-entry {
+    display: grid;
+    grid-template-columns: 100px 1fr 55px;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 6px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.05);
+
+    transition:
+        background 0.2s ease;
+}
+
+.history-entry:hover {
+    background:
+        rgba(213, 184, 119, 0.035);
+}
+
+.history-player {
+    font-size: 12px;
+    color: #a9a49a;
+}
+
+.history-match {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    font-family: "Cinzel", serif;
+    font-size: 13px;
+
+    color: #ded8ca;
+}
+
+.history-vs {
+    font-family: "Inter", sans-serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+
+    color: #68665f;
+}
+
+.history-outcome {
+    text-align: right;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Completed battle won. */
+.history-outcome.win {
+    color: #bda874;
+}
+
+/* Completed battle lost. */
+.history-outcome.loss {
+    color: #c4aaa2;
+}
+
+/* ---------- Challenge summary ---------- */
+
+.summary-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background: rgba(8, 8, 10, 0.78);
+
+    backdrop-filter: blur(5px);
+}
+
+.summary-overlay.hidden {
+    display: none;
+}
+
+.summary-panel {
+    width: min(650px, 100%);
+    max-height: min(720px, 90vh);
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1c1b1d 0%,
+            #151416 100%
+        );
+
+    border: 1px solid rgba(213, 184, 119, 0.25);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 24px;
+
+    border-bottom:
+        1px solid rgba(213, 184, 119, 0.18);
+}
+
+.summary-label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    color: #8f8b83;
+}
+
+.summary-header h2 {
+    margin: 0;
+
+    font-family: "Cinzel", serif;
+    font-size: 22px;
+    font-weight: 600;
+
+    color: #e8dfcd;
+}
+
+.summary-close {
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid rgba(213, 184, 119, 0.2);
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: #aaa49a;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.summary-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e8dfcd;
+}
+
+.summary-content {
+    flex: 1;
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding: 20px 24px;
+}
+
+.summary-empty {
+    margin: 20px 0;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #77736b;
+}
+
+/* Individual player summary. */
+.summary-player {
+    padding: 16px 0;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-player:first-child {
+    padding-top: 0;
+}
+
+.summary-player:last-child {
+    border-bottom: none;
+}
+
+.summary-player-name {
+    margin-bottom: 12px;
+
+    font-family: "Cinzel", serif;
+    font-size: 16px;
+
+    color: #ded8ca;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+.summary-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 10px 6px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid rgba(213, 184, 119, 0.08);
+}
+
+.summary-stat span {
+    margin-bottom: 5px;
+
+    font-size: 8px;
+    letter-spacing: 1.5px;
+
+    color: #77736b;
+}
+
+.summary-stat strong {
+    font-family: "Cinzel", serif;
+    font-size: 16px;
+    font-weight: 600;
+
+    color: #bda874;
+}
+
+/* ---------- Summary footer ---------- */
+
+.summary-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding: 14px 24px;
+
+    border-top:
+        1px solid rgba(213, 184, 119, 0.12);
+}
+
+.reset-button {
+    padding: 8px 14px;
+
+    border: 1px solid rgba(180, 100, 100, 0.35);
+    border-radius: 3px;
+
+    background: rgba(120, 60, 60, 0.08);
+
+    color: #a99b91;
+
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.reset-button:hover {
+    background: rgba(120, 60, 60, 0.16);
+
+    border-color: rgba(180, 100, 100, 0.6);
+
+    color: #d0bbb1;
+}
+
+/* ---------- Reset confirmation ---------- */
+
+.reset-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 200;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background: rgba(8, 8, 10, 0.82);
+
+    backdrop-filter: blur(6px);
+}
+
+.reset-overlay.hidden {
+    display: none;
+}
+
+.reset-dialog {
+    width: min(440px, 100%);
+
+    background:
+        linear-gradient(
+            180deg,
+            #1c1b1d 0%,
+            #151416 100%
+        );
+
+    border:
+        1px solid rgba(180, 100, 100, 0.3);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.reset-dialog-header {
+    padding: 20px 24px;
+
+    border-bottom:
+        1px solid rgba(180, 100, 100, 0.15);
+}
+
+.reset-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    color: #9b7770;
+}
+
+.reset-dialog-header h2 {
+    margin: 0;
+
+    font-family: "Cinzel", serif;
+    font-size: 21px;
+    font-weight: 600;
+
+    color: #e8dfcd;
+}
+
+.reset-dialog-content {
+    padding: 20px 24px;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    color: #aaa49a;
+}
+
+.reset-dialog-content p {
+    margin: 0 0 10px;
+}
+
+.reset-dialog-content p:last-child {
+    margin-bottom: 0;
+
+    color: #9b7770;
+}
+
+.reset-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding: 14px 24px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cancel-reset-button,
+.confirm-reset-button {
+    padding: 9px 15px;
+
+    border-radius: 3px;
+
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.cancel-reset-button {
+    border:
+        1px solid rgba(213, 184, 119, 0.2);
+
+    background: transparent;
+
+    color: #a9a49a;
+}
+
+.cancel-reset-button:hover {
+    background: rgba(255, 255, 255, 0.04);
+
+    color: #ded8ca;
+}
+
+.confirm-reset-button {
+    border:
+        1px solid rgba(180, 100, 100, 0.4);
+
+    background:
+        rgba(120, 60, 60, 0.12);
+
+    color: #c4aaa2;
+}
+
+.confirm-reset-button:hover {
+    background:
+        rgba(120, 60, 60, 0.22);
+
+    border-color:
+        rgba(180, 100, 100, 0.65);
+
+    color: #ddc4bb;
+}
+
+/* ---------- Header actions ---------- */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Challenge summary button. */
+.summary-button {
+    padding: 9px 16px;
+
+    border: 1px solid rgba(213, 184, 119, 0.25);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: #a9a49a;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.summary-button:hover {
+    background: rgba(213, 184, 119, 0.07);
+
+    border-color: rgba(213, 184, 119, 0.5);
+
+    color: #ded8ca;
+}
+
+/* ---------- Player setup ---------- */
+
+.setup-screen {
+    width: min(520px, 94%);
+
+    margin: auto;
+
+    padding: 70px 0;
+}
+
+.setup-heading {
+    text-align: center;
+
+    margin-bottom: 32px;
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: "Cinzel", serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    color: #b9a77b;
+}
+
+.setup-heading h2 {
+    font-family: "Cinzel", serif;
+    font-size: clamp(26px, 5vw, 34px);
+    font-weight: 600;
+}
+
+.setup-heading p {
+    margin-top: 9px;
+
+    color: #8f8b83;
+
+    font-size: 13px;
+}
+
+/* ---------- Player input list ---------- */
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.player-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-number {
+    width: 30px;
+
+    font-family: "Cinzel", serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+
+    color: #8f8b83;
+
+    text-align: center;
+}
+
+.player-input {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 13px 14px;
+
+    color: #eee9df;
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(213, 184, 119, 0.2);
+    border-radius: 3px;
+
+    outline: none;
+
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.player-input::placeholder {
+    color: #68665f;
+}
+
+.player-input:focus {
+    background: rgba(255, 255, 255, 0.055);
+
+    border-color: rgba(213, 184, 119, 0.65);
+}
+
+.remove-player {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: #8f8b83;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.remove-player:hover {
+    color: #ded8ca;
+
+    border-color: rgba(213, 184, 119, 0.4);
+
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* ---------- Setup buttons ---------- */
+
+.add-player-button {
+    width: 100%;
+
+    margin-top: 14px;
+
+    padding: 12px;
+
+    border: 1px dashed rgba(213, 184, 119, 0.3);
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: #b9a77b;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.add-player-button:hover {
+    background: rgba(213, 184, 119, 0.05);
+
+    border-color: rgba(213, 184, 119, 0.6);
+}
+
+.start-button {
+    width: 100%;
+
+    margin-top: 24px;
+
+    padding: 14px 20px;
+
+    border: 1px solid #c5ad76;
+    border-radius: 3px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #c5ad76 0%,
+            #a58d59 100%
+        );
+
+    color: #171619;
+
+    font-family: "Cinzel", serif;
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
+}
+
+.start-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.start-button:active {
+    transform: translateY(0);
+}
+
+/* ---------- Setup validation ---------- */
+
+.setup-error {
+    min-height: 18px;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #c99b88;
+}
+
+/* ---------- Challenge screen ---------- */
+
+.challenge {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 18px 0 25px;
+}
+
+.challenge.hidden {
+    display: none;
+}
+
+.setup-screen.hidden {
+    display: none;
+}
+
+/* ---------- Round information ---------- */
+
+.round-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 12px;
+
+    font-size: 13px;
+}
+
+.round-label {
+    font-family: "Cinzel", serif;
+    letter-spacing: 2px;
+
+    color: #b9a77b;
+}
+
+.divider {
+    width: 1px;
+    height: 14px;
+
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.player-name {
+    color: #c9c5bd;
+}
+
+/* ---------- Wheel area ---------- */
+
+.wheel-area {
+    position: relative;
+
+    width: min(620px, 78vw, 58vh);
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Shared wheel container. */
+.wheel-placeholder {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    user-select: none;
+
+    transition:
+        transform 0.45s ease,
+        opacity 0.45s ease;
+}
+
+/* ---------- Wheel layer states ---------- */
+
+.character-wheel,
+.boss-wheel {
+    transition:
+        transform 0.5s ease,
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
+
+/* Active wheel. */
+.wheel-active {
+    z-index: 2;
+
+    transform: scale(1);
+
+    opacity: 1;
+
+    filter: brightness(1);
+}
+
+/* Inactive wheel. */
+.wheel-inactive {
+    z-index: 1;
+
+    transform: scale(0.92);
+
+    opacity: 0.55;
+
+    filter: brightness(0.65);
+}
+
+/* Character wheel styling. */
+.character-wheel {
+    border: 3px solid #c5ad76;
+
+    background: #18191d;
+
+    box-shadow:
+        0 0 0 8px rgba(197, 173, 118, 0.08),
+        0 15px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Boss wheel styling. */
+.boss-wheel {
+    border: 3px solid #77736b;
+
+    background: #141519;
+}
+
+/* SVG wheel surface. */
+.wheel-svg {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    transition:
+        transform 4.5s cubic-bezier(
+            0.12,
+            0.78,
+            0.15,
+            1
+        );
+
+    transform-origin: center;
+}
+
+/* Individual wheel segments. */
+.wheel-slice {
+    fill: #24252b;
+
+    stroke: rgba(197, 173, 118, 0.45);
+    stroke-width: 2;
+}
+
+/* Alternating wheel segments. */
+.wheel-slice-alt {
+    fill: #1d1e23;
+}
+
+/* Wheel labels. */
+.wheel-label {
+    fill: #e5e0d5;
+
+    font-family: "Cinzel", serif;
+    font-size: 23px;
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+
+    pointer-events: none;
+}
+
+/* Central wheel hub. */
+.wheel-hub {
+    fill: #15161a;
+
+    stroke: #c5ad76;
+    stroke-width: 4;
+}
+
+/* ---------- Wheel pointer ---------- */
+
+.wheel-pointer {
+    position: absolute;
+
+    top: -5px;
+    left: 50%;
+
+    z-index: 10;
+
+    width: 0;
+    height: 0;
+
+    transform: translateX(-50%);
+
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 25px solid #d6b96f;
+
+    filter:
+        drop-shadow(
+            0 3px 4px rgba(0, 0, 0, 0.6)
+        );
+}
+
+/* ---------- Challenge result ---------- */
+
+.result-area {
+    width: min(700px, 94%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 15px;
+}
+
+.result-card {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(213, 184, 119, 0.22);
+    border-bottom: 1px solid rgba(213, 184, 119, 0.22);
+}
+
+.result-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 10px;
+    letter-spacing: 3px;
+
+    color: #8f8b83;
+}
+
+.result-names {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    font-family: "Cinzel", serif;
+    font-size: clamp(18px, 3vw, 24px);
+}
+
+.result-vs {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    color: #8f8b83;
+}
+
+/* ---------- Challenge controls ---------- */
+
+.controls {
+    margin-top: 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Primary spin button. */
+.spin-button {
+    min-width: 150px;
+
+    padding: 13px 28px;
+
+    border: 1px solid #c5ad76;
+    border-radius: 3px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #c5ad76 0%,
+            #a58d59 100%
+        );
+
+    color: #171619;
+
+    font-family: "Cinzel", serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
+}
+
+.spin-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.spin-button:active {
+    transform: translateY(0);
+}
+
+/* Indicates that both selections have been completed. */
+.spin-button.battle-ready {
+    background: rgba(213, 184, 119, 0.08);
+
+    border-color: rgba(213, 184, 119, 0.3);
+
+    color: #bda874;
+
+    cursor: default;
+
+    box-shadow: none;
+}
+
+.spin-button.battle-ready:hover {
+    transform: none;
+    filter: none;
+}
+
+/* Indicates that the primary action is temporarily inactive. */
+.spin-button:disabled {
+    cursor: default;
+    opacity: 0.7;
+    transform: none;
+}
+
+/* Secondary reroll controls. */
+.reroll-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.reroll-controls.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Individual reroll button. */
+.reroll-button {
+    padding: 8px 13px;
+
+    border: 1px solid rgba(213, 184, 119, 0.25);
+    border-radius: 3px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: #a9a49a;
+
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.reroll-button:hover {
+    background: rgba(213, 184, 119, 0.07);
+
+    border-color: rgba(213, 184, 119, 0.5);
+
+    color: #ded8ca;
+}
+
+/* Prevent interaction while a wheel is spinning. */
+.reroll-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* Battle result controls remain hidden until both selections are complete. */
+.battle-result-controls {
+    display: none;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.battle-result-controls.visible {
+    display: flex;
+}
+
+/* Battle outcome buttons. */
+.result-button {
+    min-width: 110px;
+
+    padding: 12px 24px;
+
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    color: #f4efe2;
+
+    font-family: "Cinzel", serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.result-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+
+    border-color: rgba(212, 175, 55, 0.7);
+
+    transform: translateY(-1px);
+}
+
+.result-button:active {
+    transform: translateY(0);
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 15px 0 20px;
+
+    font-size: 11px;
+
+    color: #68665f;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Location button is hidden on desktop, only shown on mobile. */
+.location-button {
+    display: none;
+}
+
+/* ---------- Responsive layout ---------- */
+
+@media (max-width: 600px) {
+
+    .top-bar {
+        padding-top: 22px;
+    }
+
+    .brand h1 {
+        font-size: 22px;
+    }
+
+    .brand-small {
+        font-size: 9px;
+        letter-spacing: 3px;
+    }
+
+    .history-button {
+        padding: 9px 11px;
+    }
+
+    .setup-screen {
+        padding: 45px 0;
+    }
+
+    .challenge {
+        padding-top: 22px;
+    }
+
+    .wheel-area {
+        width: 88vw;
+    }
+
+    footer {
+        font-size: 9px;
+    }
+}
+
+/* Desktop challenge decorations */
+.challenge {
+    position: relative;
+}
+
+.challenge-decorations {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Insignias */
+
+.fatui-decoration,
+.wolf-decoration {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    opacity: 0.60;
+}
+
+/* Upper-left insignia */
+.fatui-decoration {
+    left: -70px;
+    top: 35px;
+}
+
+/* Lower-right insignia */
+.wolf-decoration {
+    right: -70px;
+    top: 300px;
+}
+
+/* Vertical ornament containers */
+
+.decorative-line {
+    position: absolute;
+    width: 2px;
+}
+
+/* Left line */
+.decorative-line-left {
+    left: -105px;
+    top: 20px;
+    height: 260px;
+}
+
+/* Right line */
+.decorative-line-right {
+    right: -105px;
+    top: 80px;
+    height: 620px;
+}
+
+/* Actual line pieces */
+
+.line-segment {
+    position: absolute;
+    left: 0;
+    width: 2px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(213, 184, 119, 0.60) 10%,
+            rgba(213, 184, 119, 0.60) 90%,
+            transparent
+        );
+}
+
+/* Left line pieces */
+
+.decorative-line-left .line-top {
+    top: 0;
+    height: 95px;
+}
+
+.decorative-line-left .line-bottom {
+    bottom: 0;
+    height: 95px;
+}
+
+/* Right line pieces */
+
+.decorative-line-right .line-top {
+    top: 0;
+    height: 145px;
+}
+
+.decorative-line-right .line-middle {
+    top: 195px;
+    height: 145px;
+}
+
+.decorative-line-right .line-bottom {
+    top: 385px;
+    height: 150px;
+}
+
+/* Primogem-like ornaments */
+
+.ornament-diamond {
+    position: absolute;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(213, 184, 119, 0.95),
+            rgba(213, 184, 119, 0.65)
+        );
+
+    filter:
+        drop-shadow(
+            0 0 5px
+            rgba(213, 184, 119, 0.35)
+        );
+
+    clip-path:
+        polygon(
+            50% 0%,
+            62% 38%,
+            100% 50%,
+            62% 62%,
+            50% 100%,
+            38% 62%,
+            0% 50%,
+            38% 38%
+        );
+}
+
+/* Large primogem */
+.ornament-diamond-large {
+    width: 18px;
+    height: 18px;
+}
+
+/* Small primogem */
+.ornament-diamond-small {
+    width: 8px;
+    height: 8px;
+}
+
+/* Left large diamond */
+.decorative-line-left .ornament-diamond-large {
+    top: 120px;
+}
+
+/* Left small diamond */
+.decorative-line-left .ornament-diamond-small {
+    top: 147px;
+}
+
+/* Right large diamond #1 */
+.decorative-line-right .ornament-diamond-large {
+    top: 160px;
+}
+
+/* Right large diamond #2 */
+.decorative-line-right .ornament-diamond-second {
+    top: 350px;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+/* Desktop decorations are removed on mobile */
+
+@media (max-width: 700px) {
+
+    .challenge-decorations {
+        display: none;
+    }
+
+}
+
+/* Boss location overlay */
+
+.location-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        rgba(8, 9, 13, 0.78);
+
+    backdrop-filter: blur(6px);
+
+    z-index: 1000;
+}
+
+.location-overlay.hidden {
+    display: none;
+}
+
+/* Location panel */
+
+.location-panel {
+    width: min(720px, 94vw);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(29, 30, 38, 0.98),
+            rgba(17, 18, 24, 0.98)
+        );
+
+    border:
+        1px solid
+        rgba(213, 184, 119, 0.35);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.55);
+
+    padding: 24px;
+}
+
+/* Header */
+
+.location-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.location-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+    letter-spacing: 0.18em;
+
+    color: #9d8960;
+}
+
+.location-header h2 {
+    margin: 0;
+
+    font-family: "Cinzel", serif;
+    font-size: 24px;
+    font-weight: 500;
+
+    color: #eee7d8;
+}
+
+/* Close button */
+
+.location-close {
+    border: none;
+    background: transparent;
+
+    color: #b9b0a0;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 0 4px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.location-close:hover {
+    color: #d5b877;
+    transform: scale(1.08);
+}
+
+/* Map */
+
+/* The map container and image are defined in the layer-marker section below. */
+
+/* Location details */
+
+.location-details {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+
+    gap: 12px;
+
+    margin-top: 16px;
+}
+
+.location-detail {
+    padding: 12px 14px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+}
+
+.location-detail span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+    letter-spacing: 0.15em;
+
+    color: #8f887c;
+}
+
+.location-detail strong {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #ddd5c5;
+}
+
+/* Layer indicator */
+
+.location-layer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    width: fit-content;
+
+    margin-top: 14px;
+    padding: 7px 11px;
+
+    border:
+        1px solid
+        rgba(213, 184, 119, 0.25);
+
+    background:
+        rgba(213, 184, 119, 0.06);
+
+    color: #bda874;
+
+    font-size: 12px;
+    letter-spacing: 0.05em;
+}
+
+.location-layer.hidden {
+    display: none;
+}
+
+.location-layer span:first-child {
+    font-size: 15px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .location-overlay {
+        padding: 14px;
+    }
+
+    .location-panel {
+        width: 100%;
+        padding: 18px;
+    }
+
+    .location-header h2 {
+        font-size: 20px;
+    }
+
+    .location-details {
+        grid-template-columns: 1fr;
+    }
+
+    .location-map-container {
+    min-height: 160px;
+}
+
+}
+
+/* Boss location information button */
+
+.boss-result-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.location-button {
+    position: relative;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    padding: 0;
+
+    border: 1px solid rgba(213, 184, 119, 0.45);
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #bda874;
+
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* Location tooltip */
+
+.location-button::after {
+    content: "Location";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: calc(100% + 8px);
+
+    transform:
+        translateX(-50%)
+        translateY(3px);
+
+    padding: 5px 8px;
+
+    background: #18171b;
+
+    border: 1px solid
+        rgba(213, 184, 119, 0.25);
+
+    color: #d8cfbd;
+
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.location-button:hover::after {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+.location-layer-tooltip-right {
+    left: 0;
+    transform: translateX(0) translateY(3px);
+}
+
+.location-layer-icon:hover .location-layer-tooltip-right {
+    transform: translateX(0) translateY(0);
+}
+
+.location-layer-icon:first-child .location-layer-tooltip {
+    transform: translateX(-50%) translateY(3px);
+}
+
+.location-layer-icon:first-child:hover .location-layer-tooltip {
+    transform: translateX(-50%) translateY(0);
+}
+
+.location-layer-icon:first-child .night-kingdom-tooltip {
+    left: calc(50% + 10px);
+}
+
+/* Layer marker on map */
+
+.location-map-container {
+    position: relative;
+    min-height: 220px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.location-map-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.location-layer {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    z-index: 5;
+
+    /* The container itself should not be the hitbox */
+    pointer-events: none;
+}
+
+.location-layer.hidden {
+    display: none !important;
+}
+
+ 
+ /* Layer marker on map */
+.location-layer-icon {
+    position: relative;
+
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(213, 184, 119, 0.45);
+    border-radius: 3px;
+    background: rgba(12, 12, 16, 0.82);
+
+    color: #d5b877;
+    font-size: 16px;
+
+    backdrop-filter: blur(3px);
+
+    cursor: default;
+
+    /* Each icon gets its own hitbox */
+    pointer-events: auto;
+}
+
+.location-layer-icon:hover {
+    z-index: 20;
+}
+
+/* Layer tooltip */
+
+.location-layer-tooltip {
+    position: absolute;
+
+    left: 50%;
+    bottom: calc(100% + 8px);
+
+    transform: translateX(-50%) translateY(3px);
+
+    padding: 5px 8px;
+
+    background: #18171b;
+    border: 1px solid rgba(213, 184, 119, 0.25);
+
+    color: #d8cfbd;
+
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 30;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.location-layer-icon:hover .location-layer-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Full-screen map viewer */
+
+.map-viewer-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(5, 6, 9, 0.94);
+    z-index: 1100;
+    overflow: hidden;
+}
+
+.map-viewer-overlay.hidden {
+    display: none;
+}
+
+.map-viewer-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.map-viewer-container img {
+    display: block;
+    max-width: 94vw;
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    cursor: grab;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.map-viewer-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(213, 184, 119, 0.4);
+    border-radius: 50%;
+    background: rgba(12, 12, 16, 0.8);
+    color: #d8cfbd;
+    font-family: "Inter", sans-serif;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.map-viewer-close:hover {
+    background: rgba(30, 30, 38, 0.95);
+    border-color: rgba(213, 184, 119, 0.7);
+}
+
+@media (max-width: 700px) {
+
+    .map-viewer-close {
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+        font-size: 21px;
+    }
+
+    .map-viewer-container img {
+        max-width: 96vw;
+        max-height: 94vh;
+    }
+
+}
