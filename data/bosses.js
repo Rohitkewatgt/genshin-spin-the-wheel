@@ -150,3 +150,18 @@ const bosses = [
     "Furiosa"
 
 ];
+
+const soloOnlyBosses = [
+    "He Never Dies",
+    "Ichcahuipilli's Aegis",
+    "Atlatl's Blessing",
+    "Cihuacoatl of Chimeric Bone",
+    "Tlatzacuilotl",
+    "Chimalli's Shade",
+    "Spirit of the Fallen Dawnstar",
+    "Potapo's Solidarity",
+    "Tupayo's Aid",
+    "Ironbeard",
+    "Tupu's Lushness",
+    "Reji"
+];

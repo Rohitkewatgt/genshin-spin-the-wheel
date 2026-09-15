@@ -4,6 +4,9 @@ const MAX_PLAYERS = 4;
 let players = [];
 let currentRound = 1;
 let currentPlayerIndex = 0;
+let turnOrder = [];
+let playerShuffleEnabled = false;
+let battleHistory = [];
 
 let mapViewerScale = 1;
 let mapViewerX = 0;
@@ -26,9 +29,6 @@ let mapViewerPinchStartDistance = 0;
 let mapViewerPinchStartScale = 1;
 let mapViewerPinchCenterX = 0;
 let mapViewerPinchCenterY = 0;
-
-// Stores completed battles for the current challenge session.
-let battleHistory = [];
 
 // ---------- Wheel state ----------
 
@@ -156,6 +156,20 @@ const mapViewerImage =
 const mapViewerContainer =
     document.getElementById("mapViewerContainer");
 
+    const shuffleOption =
+    document.getElementById("shuffleOption");
+
+const shufflePlayers =
+    document.getElementById("shufflePlayers");
+
+    shufflePlayers.addEventListener("change", function () {
+
+        // Update the shuffle state when the checkbox is toggled.
+    playerShuffleEnabled =
+        shufflePlayers.checked;
+
+});
+
 // ---------- Player setup ----------
 
 // Creates a player input row and adds it to the setup form.
@@ -191,9 +205,10 @@ function addPlayerInput() {
     );
 
     removeButton.addEventListener("click", function () {
-        row.remove();
-        updatePlayerNumbers();
-        updateAddButton();
+row.remove();
+updatePlayerNumbers();
+updateAddButton();
+updateShuffleVisibility();
     });
 
     row.appendChild(number);
@@ -203,9 +218,25 @@ function addPlayerInput() {
     playerList.appendChild(row);
 
     updatePlayerNumbers();
-    updateAddButton();
+updateAddButton();
+updateShuffleVisibility();
 }
 
+// Updates the Player Shuffle option based on player count.
+function updateShuffleVisibility() {
+
+    const playerCount =
+        playerList.children.length;
+
+    if (playerCount >= 3) {
+        shuffleOption.classList.remove("hidden");
+    } else {
+        shuffleOption.classList.add("hidden");
+
+        playerShuffleEnabled = false;
+        shufflePlayers.checked = false;
+    }
+}
 
 // Keeps player numbers and placeholders sequential after a player is removed.
 function updatePlayerNumbers() {
@@ -243,6 +274,40 @@ function updateAddButton() {
     }
 }
 
+// Generates the turn order for the current round.
+function generateTurnOrder(previousLastPlayer) {
+
+    if (!playerShuffleEnabled) {
+        turnOrder = [...players];
+        return;
+    }
+
+    let shuffledOrder = [];
+
+    do {
+        shuffledOrder = [...players];
+
+        for (let i = shuffledOrder.length - 1; i > 0; i--) {
+            const randomIndex =
+                Math.floor(Math.random() * (i + 1));
+
+            const temp =
+                shuffledOrder[i];
+
+            shuffledOrder[i] =
+                shuffledOrder[randomIndex];
+
+            shuffledOrder[randomIndex] =
+                temp;
+        }
+
+    } while (
+        shuffledOrder.length > 1 &&
+        shuffledOrder[0] === previousLastPlayer
+    );
+
+    turnOrder = shuffledOrder;
+}
 
 // ---------- Challenge initialization ----------
 
@@ -281,8 +346,19 @@ function startChallenge() {
 
     players = names;
 
-    currentRound = 1;
-    currentPlayerIndex = 0;
+const availableBosses =
+    players.length === 1
+        ? bosses
+        : bosses.filter(function (boss) {
+            return !soloOnlyBosses.includes(boss);
+        });
+
+createWheel("boss", availableBosses);
+
+currentRound = 1;
+currentPlayerIndex = 0;
+
+generateTurnOrder(null);
 
     setupError.textContent = "";
 
@@ -306,19 +382,25 @@ function recordBattleResult(outcome) {
 
     battleHistory.push({
         round: currentRound,
-        player: players[currentPlayerIndex],
+        player: turnOrder[currentPlayerIndex],
         character: wheelState.character.result,
         boss: wheelState.boss.result,
         outcome: outcome
     });
 
+    // Remember the player who completed the final turn of this round.
+    const previousLastPlayer =
+        turnOrder[currentPlayerIndex];
+
     // Move to the next player.
     currentPlayerIndex++;
 
     // Start a new round after all players have completed their turn.
-    if (currentPlayerIndex >= players.length) {
+    if (currentPlayerIndex >= turnOrder.length) {
         currentPlayerIndex = 0;
         currentRound++;
+
+        generateTurnOrder(previousLastPlayer);
     }
 
     // Reset both wheel results for the next battle.
@@ -342,9 +424,7 @@ function recordBattleResult(outcome) {
         `ROUND ${currentRound}`;
 
     playerTurn.textContent =
-    `${players[currentPlayerIndex]}'s Turn`;
-
-    console.log(battleHistory);
+        `${turnOrder[currentPlayerIndex]}'s Turn`;
 }
 
 
@@ -520,7 +600,7 @@ function updateTurnDisplay() {
     roundLabel.textContent = `ROUND ${currentRound}`;
 
     playerTurn.textContent =
-        `${players[currentPlayerIndex]}'s Turn`;
+    `${turnOrder[currentPlayerIndex]}'s Turn`;
 }
 
 
@@ -964,25 +1044,20 @@ function updateWheelResult(type, result) {
 
 // Spins the wheel currently designated as active.
 function spinCurrentWheel() {
-
     if (activeWheel === "character") {
-
-        spinWheel(
-            "character",
-            characters
-        );
-
+        spinWheel("character", characters);
         return;
     }
 
-
     if (activeWheel === "boss") {
+        const availableBosses =
+            players.length === 1
+                ? bosses
+                : bosses.filter(function (boss) {
+                    return !soloOnlyBosses.includes(boss);
+                });
 
-        spinWheel(
-            "boss",
-            bosses
-        );
-
+        spinWheel("boss", availableBosses);
         return;
     }
 }

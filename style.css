@@ -939,6 +939,84 @@ body::before {
     transform: translateY(0);
 }
 
+/* ---------- Player shuffle ---------- */
+
+.shuffle-option {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 14px;
+}
+
+.shuffle-option.hidden {
+    display: none;
+}
+
+.shuffle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #9f9a8e;
+
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.shuffle-label input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.shuffle-switch {
+    position: relative;
+
+    width: 34px;
+    height: 18px;
+
+    border: 1px solid rgba(213, 184, 119, 0.3);
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.shuffle-switch::after {
+    content: "";
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #77736a;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.shuffle-label input:checked + .shuffle-switch {
+    background: rgba(213, 184, 119, 0.18);
+    border-color: rgba(213, 184, 119, 0.65);
+}
+
+.shuffle-label input:checked + .shuffle-switch::after {
+    transform: translateX(16px);
+    background: #c5ad76;
+}
+
 /* ---------- Setup validation ---------- */
 
 .setup-error {
